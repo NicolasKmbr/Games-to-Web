@@ -1,12 +1,23 @@
 import React from 'react'
-import Card from './Card'
+import Card from '@/components/Card'
+import { GetAssetPaths } from '@/utils/GetAssetPaths'
 
-function MemoryBoard() {
+
+
+async function MemoryBoard() {
+
+const cards = await GetAssetPaths()
+console.log(cards)
+
   return (
     <div>
-        <Card src="/Deck_of_Cards/2_of_clubs.png" alt="1" />
+      {cards.map((card, index) => (
+                <Card key={index} src={card} alt='Memory Card' />
+            ))}
+
     </div>
   )
 }
+
 
 export default MemoryBoard
