@@ -6,7 +6,7 @@ import { GetAssetPaths } from '@/utils/GetAssetPaths'
 
 async function MemoryBoard() {
 
-const cards = await GetAssetPaths()
+const cards = await GetAssetPaths("/Deck_of_Cards")
 console.log(cards)
 
   return (
