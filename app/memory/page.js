@@ -1,8 +1,12 @@
 import React from 'react'
+import MemoryBoard from '../components/MemoryBoard'
+
 
 function MemoryPage() {
   return (
-    <div>MemoryPage</div>
+    <div>
+      <MemoryBoard />
+    </div>
   )
 }
 

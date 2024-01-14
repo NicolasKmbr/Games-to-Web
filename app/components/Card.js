@@ -8,8 +8,8 @@ function Card(props) {
         <div>
             <Image
             src={props.src}
-            width={500}
-            height={500}
+            width={100}
+            height={100}
             alt={props.alt}
         />
         </div>
