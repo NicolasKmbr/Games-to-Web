@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 
 function Card(props) {
     return (
-        <div>
+        <div className='w-fit'>
             <Image
             src={props.src}
             width={100}
