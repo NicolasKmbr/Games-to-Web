@@ -20,7 +20,6 @@ function Card(props) {
 Card.propTypes = {
     src: PropTypes.string.isRequired,
     alt: PropTypes.string.isRequired,
-    revealed: PropTypes.bool,
     handleCardClick: PropTypes.func
 };
 

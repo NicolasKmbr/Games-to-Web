@@ -10,7 +10,8 @@ import { useEffect, useState } from 'react'
 
 function MemoryBoard() {
   const [cards, setCards] = useState([]);
-  const [flip, setFlip] = useState([]);
+  const [revealed, setRevealed] = useState([]);
+  const [score, setScore] = useState(0);
 
   useEffect(() => {
     const allCards = [];
@@ -25,29 +26,36 @@ function MemoryBoard() {
   , []);
 
   useEffect(() => {
-    setFlip(Array(cards.length).fill(false));
-  }, [cards]);
+    console.log('revealed: ', revealed);
+    console.log('revealed.length: ', revealed.length);
+    const [first, second] = revealed;
+    if (revealed.length === 2) {
 
-
-  
+      if (cards[first].rank === cards[second].rank && cards[first].suit === cards[second].suit) {
+        setScore(score + 1);
+      }
+      setTimeout(() => {
+        setRevealed([]);
+      }, 1000);
+    }
+  } , [revealed]);
 
   const handleCardClick = (index) => {
-    const newFlip = [...flip];
-    newFlip[index] = !newFlip[index];
-    setFlip(newFlip);
+    console.log('index: ', index);
+    setRevealed([...revealed, index]);
   };
 
-  console.log(cards);
-  console.log("flip array = " + flip);
 
+  //console.log(cards);
 
 
 
   return (
     <div className='grid grid-cols-4 w-fit m-auto gap-3'>
       {cards.map((card, index) => (
-                <Card revealed={flip[index]} key={index} src={card.imagePath} alt='Memory Card' handleCardClick={() => handleCardClick(index)} />
+                <Card revealed={revealed.includes(index)} key={index} src={card.imagePath} alt='Memory Card' handleCardClick={() => handleCardClick(index)} />
             ))}
+      <p>{score}</p>
     </div>
   )
 }
