@@ -9,7 +9,7 @@ function MemoryBoard() {
   const [score, setScore] = useState(0);
 
   useEffect(() => {
-    if (cards.every((card) => card.imagePath === "")) {
+    if (cards.every((card) => card.matched === true)) {
       alert("You won!");
     }
   } , [cards]);
@@ -26,27 +26,25 @@ function MemoryBoard() {
       ) {
         setScore(score + 1);
         // Remove the cards from the board
-        setCards(
-          cards.map((card, index) => {
-            if (index === first || index === second) {
-              return { ...card, imagePath: "" };
-            }
-            return card;
-          })
-        );
+        setCards((currentCards) => {
+          const newCards = [...currentCards];
+          newCards[first].matched = true;
+          newCards[second].matched = true;
+          return newCards;
+        });
       }
     }
   }, [revealed]);
 
 
   const handleCardClick = (index) => {
-    console.log("index: ", index);
     // If the card is already revealed, do nothing
-    if (revealed.includes(index)) {
+    if (revealed.includes(index) || cards[index].matched) {
       return;
     }else{
       setRevealed([...revealed, index]);
     }
+    console.log("index: ", index);
     if (revealed.length >= 2) {
       setRevealed((currentArray) => currentArray.slice(2));
     }
@@ -55,21 +53,21 @@ function MemoryBoard() {
   return (
     <>
     <div className="relative grid grid-cols-4 w-fit m-auto gap-3">
-      {cards.map((card, index) =>
-        card.imagePath ? (
-          <Card
-            revealed={revealed.includes(index)}
-            key={index}
-            src={card.imagePath}
-            alt="Memory Card"
-            handleCardClick={() => handleCardClick(index)}
-          />
-        ) : (
-          <div className='w-fit'></div>
-        )
-      )}
+    {cards.map((card, index) => {
+  console.log(card.matched);
+  return (
+    <Card
+      revealed={revealed.includes(index)}
+      key={index}
+      src={card.imagePath}
+      alt="Memory Card"
+      handleCardClick={() => handleCardClick(index)}
+      className={card.matched ? "invisible" : ""}
+    />
+  );
+})}
     </div>
-    <p className="mt-5 w-12 m-auto text-center rounded-md bg-blue-300">{score}</p>
+    <p className="mt-5 w-fit m-auto text-center rounded-md bg-blue-300">{score}</p>
     </>
   );
 }
