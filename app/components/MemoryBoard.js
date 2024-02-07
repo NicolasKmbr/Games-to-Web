@@ -2,7 +2,7 @@
 import Card from "@/components/Card";
 import { createCardDeck } from "@/utils/createCardDeck";
 import { useEffect, useState } from "react";
-import Button from "./Button";
+import Button from "@/components/Button";
 
 function MemoryBoard() {
   const [cards, setCards] = useState(createCardDeck(8, { duplicate: true, includeMatchable: true }));
@@ -51,6 +51,10 @@ function MemoryBoard() {
     }
   };
 
+  /**
+   * The handleReset function resets the game by creating a new card deck, clearing the revealed cards,
+   * and resetting the score.
+   */
   const handleReset = () => {
     setCards(createCardDeck(8, { duplicate: true, includeMatchable: true }));
     setRevealed([]);

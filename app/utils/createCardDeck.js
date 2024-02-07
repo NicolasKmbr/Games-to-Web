@@ -1,6 +1,7 @@
 import { createCard } from "@/utils/CreateCard";
 import { getRandomSuit } from "@/utils/getRandomSuit";
 import { getRandomCardRank } from "@/utils/getRandomCardRank";
+import { shuffleArray } from "@/utils/shuffleAray";
 
 
 /**
@@ -28,7 +29,7 @@ export function createCardDeck(amountOfCards, options = {}) {
         cardDeck.push(newCard);
     }
     if (duplicate) {
-        return cardDeck.concat(cardDeck);
+        return shuffleArray(cardDeck.concat(cardDeck));
     }
-    return cardDeck;
+    return shuffleArray(cardDeck);
 }
