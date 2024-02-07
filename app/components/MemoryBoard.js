@@ -2,6 +2,7 @@
 import Card from "@/components/Card";
 import { createCardDeck } from "@/utils/createCardDeck";
 import { useEffect, useState } from "react";
+import Button from "./Button";
 
 function MemoryBoard() {
   const [cards, setCards] = useState(createCardDeck(8, { duplicate: true, includeMatchable: true }));
@@ -50,6 +51,13 @@ function MemoryBoard() {
     }
   };
 
+  const handleReset = () => {
+    setCards(createCardDeck(8, { duplicate: true, includeMatchable: true }));
+    setRevealed([]);
+    setScore(0);
+  }
+
+
   return (
     <>
     <div className="relative grid grid-cols-4 w-fit m-auto gap-3">
@@ -62,12 +70,13 @@ function MemoryBoard() {
       src={card.imagePath}
       alt="Memory Card"
       handleCardClick={() => handleCardClick(index)}
-      className={`${card.matched ? "transition-opacity opacity-0 duration-700" : ""}`}
+      className={`${card.matched ? "transition-opacity opacity-0 duration-700" : ""}`} //Fade out matched cards
     />
   );
 })}
     </div>
     <p className="mt-5 w-fit m-auto text-center rounded-md bg-blue-300">{score}</p>
+    <Button onClick={handleReset}>Reset</Button>
     </>
   );
 }
