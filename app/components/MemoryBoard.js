@@ -4,7 +4,7 @@ import { createCardDeck } from "@/utils/createCardDeck";
 import { useEffect, useState } from "react";
 
 function MemoryBoard() {
-  const [cards, setCards] = useState(createCardDeck(8, true));
+  const [cards, setCards] = useState(createCardDeck(8, { duplicate: true, includeMatchable: true }));
   const [revealed, setRevealed] = useState([]);
   const [score, setScore] = useState(0);
 
@@ -62,7 +62,7 @@ function MemoryBoard() {
       src={card.imagePath}
       alt="Memory Card"
       handleCardClick={() => handleCardClick(index)}
-      className={card.matched ? "invisible" : ""}
+      className={`${card.matched ? "transition-opacity opacity-0 duration-700" : ""}`}
     />
   );
 })}

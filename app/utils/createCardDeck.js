@@ -2,23 +2,29 @@ import { createCard } from "@/utils/CreateCard";
 import { getRandomSuit } from "@/utils/getRandomSuit";
 import { getRandomCardRank } from "@/utils/getRandomCardRank";
 
+
 /**
- * The function creates a deck of cards with a specified amount and option to duplicate the deck.
- * @param amountOfCards - The number of cards you want to create in the deck.
- * @param duplicate - The `duplicate` parameter is a boolean value that determines whether the card
- * deck should contain duplicate cards or not. If `duplicate` is `true`, the card deck will contain two
- * copies of each card. If `duplicate` is `false`, the card deck will only contain one copy of each
- * card
- * @returns The function `createCardDeck` returns an array of card objects. If the `duplicate`
- * parameter is `true`, the function returns a deck with duplicate cards, otherwise it returns a deck
- * without duplicates.
+ * The function creates a deck of cards with a specified amount, with an option to include duplicates
+ * and matchable cards.
+ * @param amountOfCards - The `amountOfCards` parameter specifies the number of cards that should be in
+ * the deck.
+ * @param [options] - The `options` parameter is an object that allows you to customize the behavior of
+ * the `createCardDeck` function. It has two properties:
+ * - `duplicate` - The `duplicate` property is a boolean that specifies whether the deck should contain
+ * duplicate cards. If true, the deck will contain two of each card.
+ * - `includeMatchable` - The `includeMatchable` property is a boolean that specifies whether the cards
+ * should have a `matched` property. If true, the `matched` property will be included in the card
+ * @returns a card deck, which is an array of card objects.
  */
-export function createCardDeck(amountOfCards, duplicate) {
+export function createCardDeck(amountOfCards, options = {}) {
+
+    const { duplicate, includeMatchable = false } = options;
+    
     const cardDeck = [];
     while (cardDeck.length < amountOfCards) {
         const suit = getRandomSuit();
         const rank = getRandomCardRank();
-        const newCard = createCard(rank, suit);
+        const newCard = createCard(rank, suit, { includeMatchable });
         cardDeck.push(newCard);
     }
     if (duplicate) {
