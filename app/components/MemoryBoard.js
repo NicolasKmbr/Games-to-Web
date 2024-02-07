@@ -53,6 +53,7 @@ function MemoryBoard() {
   };
 
   return (
+    <>
     <div className="relative grid grid-cols-4 w-fit m-auto gap-3">
       {cards.map((card, index) =>
         card.imagePath ? (
@@ -67,8 +68,9 @@ function MemoryBoard() {
           <div className='w-fit'></div>
         )
       )}
-      <p>{score}</p>
     </div>
+    <p className="mt-5 w-12 m-auto text-center rounded-md bg-blue-300">{score}</p>
+    </>
   );
 }
 
