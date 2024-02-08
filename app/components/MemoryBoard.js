@@ -5,7 +5,9 @@ import { useEffect, useState } from "react";
 import Button from "@/components/Button";
 
 function MemoryBoard() {
-  const [cards, setCards] = useState(createCardDeck(8, { duplicate: true, includeMatchable: true }));
+  const [cards, setCards] = useState(
+    createCardDeck(8, { duplicate: true, includeMatchable: true })
+  );
   const [revealed, setRevealed] = useState([]);
   const [score, setScore] = useState(0);
 
@@ -13,7 +15,7 @@ function MemoryBoard() {
     if (cards.every((card) => card.matched === true)) {
       alert("You won!");
     }
-  } , [cards]);
+  }, [cards]);
 
   useEffect(() => {
     console.log("revealed: ", revealed);
@@ -37,12 +39,11 @@ function MemoryBoard() {
     }
   }, [revealed]);
 
-
   const handleCardClick = (index) => {
     // If the card is already revealed, do nothing
     if (revealed.includes(index) || cards[index].matched) {
       return;
-    }else{
+    } else {
       setRevealed([...revealed, index]);
     }
     console.log("index: ", index);
@@ -59,28 +60,37 @@ function MemoryBoard() {
     setCards(createCardDeck(8, { duplicate: true, includeMatchable: true }));
     setRevealed([]);
     setScore(0);
-  }
-
+  };
 
   return (
     <div className="flex flex-col items-center gap-4">
-    <div className="relative grid grid-cols-4 w-fit m-auto gap-3">
-    {cards.map((card, index) => {
-  console.log(card.matched);
-  return (
-    <Card
-      revealed={revealed.includes(index)}
-      key={index}
-      src={card.imagePath}
-      alt="Memory Card"
-      handleCardClick={() => handleCardClick(index)}
-      className={`${card.matched ? "transition-opacity opacity-0 duration-700" : ""}`} //Fade out matched cards
-    />
-  );
-})}
-    </div>
-    <p className="w-12 m-auto text-center rounded-md bg-blue-300">{score}</p>
-    <Button buttonStyle="bg-slate-400 w-16 rounded-md" handleButtonClick={handleReset}>Reset</Button>
+      <div className="relative grid grid-cols-4 w-fit m-auto gap-3">
+        {cards.map((card, index) => {
+          console.log(card.matched);
+          return (
+            <Card
+            data-cy={`card-${card.rank}-${card.suit}`}
+              revealed={revealed.includes(index)}
+              key={index}
+              src={card.imagePath}
+              alt="Memory Card"
+              handleCardClick={() => handleCardClick(index)}
+              className={`${
+                card.matched ? "transition-opacity opacity-0 duration-700" : ""
+              }`} //Fade out matched cards
+              
+              data-revealed={revealed.includes(index) ? "true" : "false"}
+            />
+          );
+        })}
+      </div>
+      <p className="w-12 m-auto text-center rounded-md bg-blue-300">{score}</p>
+      <Button
+        buttonStyle="bg-slate-400 w-16 rounded-md"
+        handleButtonClick={handleReset}
+      >
+        Reset
+      </Button>
     </div>
   );
 }

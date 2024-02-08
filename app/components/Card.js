@@ -13,6 +13,8 @@ function Card(props) {
             height={100}
             alt={props.alt}
             onClick={props.handleCardClick}
+            data-cy={props['data-cy']}
+            data-revealed={props['data-revealed']}
         />
         </div>
     )
