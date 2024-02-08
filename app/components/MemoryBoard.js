@@ -63,7 +63,7 @@ function MemoryBoard() {
 
 
   return (
-    <>
+    <div className="flex flex-col items-center gap-4">
     <div className="relative grid grid-cols-4 w-fit m-auto gap-3">
     {cards.map((card, index) => {
   console.log(card.matched);
@@ -79,9 +79,9 @@ function MemoryBoard() {
   );
 })}
     </div>
-    <p className="mt-5 w-fit m-auto text-center rounded-md bg-blue-300">{score}</p>
-    <Button onClick={handleReset}>Reset</Button>
-    </>
+    <p className="w-12 m-auto text-center rounded-md bg-blue-300">{score}</p>
+    <Button buttonStyle="bg-slate-400 w-16 rounded-md" handleButtonClick={handleReset}>Reset</Button>
+    </div>
   );
 }
 
