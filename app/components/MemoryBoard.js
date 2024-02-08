@@ -2,14 +2,15 @@
 import Card from "@/components/Card";
 import { createCardDeck } from "@/utils/createCardDeck";
 import { useEffect, useState } from "react";
+import Button from "@/components/Button";
 
 function MemoryBoard() {
-  const [cards, setCards] = useState(createCardDeck(8, true));
+  const [cards, setCards] = useState(createCardDeck(8, { duplicate: true, includeMatchable: true }));
   const [revealed, setRevealed] = useState([]);
   const [score, setScore] = useState(0);
 
   useEffect(() => {
-    if (cards.every((card) => card.imagePath === "")) {
+    if (cards.every((card) => card.matched === true)) {
       alert("You won!");
     }
   } , [cards]);
@@ -26,48 +27,60 @@ function MemoryBoard() {
       ) {
         setScore(score + 1);
         // Remove the cards from the board
-        setCards(
-          cards.map((card, index) => {
-            if (index === first || index === second) {
-              return { ...card, imagePath: "" };
-            }
-            return card;
-          })
-        );
+        setCards((currentCards) => {
+          const newCards = [...currentCards];
+          newCards[first].matched = true;
+          newCards[second].matched = true;
+          return newCards;
+        });
       }
     }
   }, [revealed]);
 
 
   const handleCardClick = (index) => {
-    console.log("index: ", index);
     // If the card is already revealed, do nothing
-    if (revealed.includes(index)) {
+    if (revealed.includes(index) || cards[index].matched) {
       return;
     }else{
       setRevealed([...revealed, index]);
     }
+    console.log("index: ", index);
     if (revealed.length >= 2) {
       setRevealed((currentArray) => currentArray.slice(2));
     }
   };
 
+  /**
+   * The handleReset function resets the game by creating a new card deck, clearing the revealed cards,
+   * and resetting the score.
+   */
+  const handleReset = () => {
+    setCards(createCardDeck(8, { duplicate: true, includeMatchable: true }));
+    setRevealed([]);
+    setScore(0);
+  }
+
+
   return (
+    <div className="flex flex-col items-center gap-4">
     <div className="relative grid grid-cols-4 w-fit m-auto gap-3">
-      {cards.map((card, index) =>
-        card.imagePath ? (
-          <Card
-            revealed={revealed.includes(index)}
-            key={index}
-            src={card.imagePath}
-            alt="Memory Card"
-            handleCardClick={() => handleCardClick(index)}
-          />
-        ) : (
-          <div className='w-fit'></div>
-        )
-      )}
-      <p>{score}</p>
+    {cards.map((card, index) => {
+  console.log(card.matched);
+  return (
+    <Card
+      revealed={revealed.includes(index)}
+      key={index}
+      src={card.imagePath}
+      alt="Memory Card"
+      handleCardClick={() => handleCardClick(index)}
+      className={`${card.matched ? "transition-opacity opacity-0 duration-700" : ""}`} //Fade out matched cards
+    />
+  );
+})}
+    </div>
+    <p className="w-12 m-auto text-center rounded-md bg-blue-300">{score}</p>
+    <Button buttonStyle="bg-slate-400 w-16 rounded-md" handleButtonClick={handleReset}>Reset</Button>
     </div>
   );
 }
