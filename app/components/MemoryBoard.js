@@ -5,14 +5,16 @@ import { useEffect, useState } from "react";
 import Button from "@/components/Button";
 
 function MemoryBoard() {
-  const [cards, setCards] = useState(
-    createCardDeck(8, { duplicate: true, includeMatchable: true })
-  );
+  const [cards, setCards] = useState([]);
   const [revealed, setRevealed] = useState([]);
   const [score, setScore] = useState(0);
 
   useEffect(() => {
-    if (cards.every((card) => card.matched === true)) {
+    handleReset();
+  } , []);
+
+  useEffect(() => {
+    if (cards.every((card) => card.matched === true) && cards.length > 0) {
       alert("You won!");
     }
   }, [cards]);
@@ -67,9 +69,10 @@ function MemoryBoard() {
       <div className="relative grid grid-cols-4 w-fit m-auto gap-3">
         {cards.map((card, index) => {
           console.log(card.matched);
+          console.log(card);
           return (
             <Card
-            data-cy={`card-${card.rank}-${card.suit}`}
+              data-cy={`card-${card.rank}-${card.suit}`}
               revealed={revealed.includes(index)}
               key={index}
               src={card.imagePath}
