@@ -3,7 +3,6 @@ import { getRandomSuit } from "@/utils/getRandomSuit";
 import { getRandomCardRank } from "@/utils/getRandomCardRank";
 import { shuffleArray } from "@/utils/shuffleAray";
 
-
 /**
  * The function creates a deck of cards with a specified amount, with an option to include duplicates
  * and matchable cards.
@@ -18,18 +17,26 @@ import { shuffleArray } from "@/utils/shuffleAray";
  * @returns a card deck, which is an array of card objects.
  */
 export function createCardDeck(amountOfCards, options = {}) {
+  const { duplicate, includeMatchable = false } = options;
 
-    const { duplicate, includeMatchable = false } = options;
-    
-    const cardDeck = [];
-    while (cardDeck.length < amountOfCards) {
-        const suit = getRandomSuit();
-        const rank = getRandomCardRank();
-        const newCard = createCard(rank, suit, { includeMatchable });
-        cardDeck.push(newCard);
+  const cardDeck = [];
+  while (cardDeck.length < amountOfCards) {
+    const suit = getRandomSuit();
+    const rank = getRandomCardRank();
+    const newCard = createCard(rank, suit, { includeMatchable });
+    // Check if card is already in the deck
+    if (
+      cardDeck.some(
+        (card) => card.rank === newCard.rank && card.suit === newCard.suit
+      )
+    ) {
+      continue;
     }
-    if (duplicate) {
-        return shuffleArray(cardDeck.concat(cardDeck));
-    }
-    return shuffleArray(cardDeck);
+
+    cardDeck.push(newCard);
+  }
+  if (duplicate) {
+    return shuffleArray(cardDeck.concat(cardDeck));
+  }
+  return shuffleArray(cardDeck);
 }
