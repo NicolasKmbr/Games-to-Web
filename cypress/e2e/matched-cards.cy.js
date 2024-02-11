@@ -1,23 +1,28 @@
 describe('template spec', () => {
 
-  beforeEach(() => {
+  before(() => {
     // Visit the MemoryBoard component page
     cy.visit('http://localhost:3000/memory');
   });
 
   it('passes', () => {
-    cy.wait(500);
-    // Click on a card
-    cy.get('[data-cy="card-ace-diamonds"]').click({multiple: true});
-    
-    cy.get('[data-revealed="true"]').should('have.attr', 'data-revealed', 'true');
 
-    // // Wait for the transition to complete
-    //cy.wait(700); // Adjust the wait time based on your transition-duration
-
-    // // Check if both cards have opacity 0
-    // // You may need to adjust the selector to target the specific elements that receive the opacity change.
-    //cy.get('[alt="Memory Card"]').eq(0).should('have.css', 'opacity', '0');
-    // cy.get('[alt="Memory Card"]').eq(1).should('have.css', 'opacity', '0');
+    cy.window().should((win) => {
+      expect(win.cardsState).to.exist; // Ensure cardsState exists
+      expect(win.cardsState.length).to.be.greaterThan(0); // Ensure cardsState is not empty or meets your condition
+    }).then((win) => {
+      const seen = new Set();
+      cy.log("the cards:" + JSON.stringify(win.cardsState));
+      for (const card of win.cardsState) {
+        const identifier = `${card.rank}-${card.suit}`;
+        if (!seen.has(identifier)) { // Check if the card has not been processed yet
+          seen.add(identifier); // Mark the card as seen
+          // Click on the card
+          cy.get(`[data-cy="card-${card.rank}-${card.suit}"]`).click({multiple: true});
+          cy.get(`[data-cy="card-${card.rank}-${card.suit}"]`).should('not.be.visible');
+        }
+      }
+      expect(win.cardsState).to.exist;
+    });
   })
 })

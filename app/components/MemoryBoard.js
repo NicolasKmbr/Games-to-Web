@@ -17,6 +17,9 @@ function MemoryBoard() {
     if (cards.every((card) => card.matched === true) && cards.length > 0) {
       alert("You won!");
     }
+    if (process.env.NODE_ENV === 'development'){
+      window.cardsState = cards;
+    }
   }, [cards]);
 
   useEffect(() => {
