@@ -99,14 +99,19 @@ function MemoryBoard() {
         Reset
       </Button>
       <Dialog
-        // isOpen={
-        //   cards.every((card) => card.matched === true) && cards.length > 0
-        // }
         isOpen={isDialogOpen}
         title="You did it!"
         onClose={() => setIsDialogOpen(false)}
+        buttons={[
+          {
+            text: "Play Again",
+            onClick: () => {
+              handleReset();
+              setIsDialogOpen(false);
+            },
+          },
+        ]}
       >
-        Test
         </Dialog>
     </div>
   );

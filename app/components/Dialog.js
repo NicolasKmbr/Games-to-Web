@@ -1,6 +1,5 @@
 import Button from "./Button";
 import PropTypes from "prop-types";
-import { useEffect, useRef } from "react";
 
 // Todo: Add a close action when clicking outside the dialog
 function Dialog(props) {
@@ -12,11 +11,18 @@ function Dialog(props) {
       }`} // white space at end of classes could cause problems
     >
       <div
-        className="flex flex-col bg-white opacity-100 p-5 rounded-md z-50"
+        className="flex flex-col bg-white p-5 rounded-md z-50"
       >
         <h2>{props.title}</h2>
-        <p>{props.children}</p>
-        <Button onClick={props.onClose}>Close</Button>
+        {props.children && <p>{props.children}</p>}
+        <div className="flex gap-5">
+            <Button onClick={props.onClose}>Close</Button>
+            {props.buttons && props.buttons.map((button, index) => (
+              <Button key={index} onClick={button.onClick}>
+                {button.text}
+              </Button>
+            ))}
+        </div>
       </div>
     </div>
   ) : null;
@@ -28,6 +34,12 @@ Dialog.propTypes = {
   onClose: PropTypes.func,
   title: PropTypes.string.isRequired,
   children: PropTypes.node.isRequired,
+    buttons: PropTypes.arrayOf(
+        PropTypes.shape({
+        text: PropTypes.string.isRequired,
+        onClick: PropTypes.func.isRequired,
+        })
+    ),
 };
 
 export default Dialog;
