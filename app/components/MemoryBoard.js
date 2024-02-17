@@ -3,17 +3,22 @@ import Card from "@/components/Card";
 import { createCardDeck } from "@/utils/createCardDeck";
 import { useEffect, useState } from "react";
 import Button from "@/components/Button";
-import Dialog from "./Dialog";
+import Dialog from "@/components/Dialog";
+
 function MemoryBoard() {
   const [cards, setCards] = useState([]);
   const [revealed, setRevealed] = useState([]);
   const [score, setScore] = useState(0);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   useEffect(() => {
     handleReset();
   }, []);
 
   useEffect(() => {
+    if (cards.every((card) => card.matched === true) && cards.length > 0) {
+      setIsDialogOpen(true);
+    }
     if (process.env.NODE_ENV === "development") {
       window.cardsState = cards;
     }
@@ -89,18 +94,20 @@ function MemoryBoard() {
       <p className="w-12 m-auto text-center rounded-md bg-blue-300">{score}</p>
       <Button
         buttonStyle="bg-slate-400 w-16 rounded-md"
-        handleButtonClick={handleReset}
+        onClick={handleReset}
       >
         Reset
       </Button>
       <Dialog
-        isOpen={
-          cards.every((card) => card.matched === true) && cards.length > 0
-        }
-        title="You won!"
+        // isOpen={
+        //   cards.every((card) => card.matched === true) && cards.length > 0
+        // }
+        isOpen={isDialogOpen}
+        title="You did it!"
+        onClose={() => setIsDialogOpen(false)}
       >
         Test
-      </Dialog>
+        </Dialog>
     </div>
   );
 }

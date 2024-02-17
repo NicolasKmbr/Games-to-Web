@@ -1,7 +1,7 @@
 
 function Button(props) {
   return (
-      <button onClick={props.handleButtonClick || null}
+      <button onClick={props.onClick || null}
       className={`text-center ${props.buttonStyle || ""}`}
       data-cy={props["data-cy"] || ""}
       >
