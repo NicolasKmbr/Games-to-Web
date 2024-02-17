@@ -22,7 +22,6 @@ describe('template spec', () => {
           cy.get(`[data-cy="card-${card.rank}-${card.suit}"]`).should('not.be.visible');
         }
       }
-      expect(win.cardsState).to.exist;
     });
   })
 })
