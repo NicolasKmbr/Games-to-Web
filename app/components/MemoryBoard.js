@@ -3,7 +3,7 @@ import Card from "@/components/Card";
 import { createCardDeck } from "@/utils/createCardDeck";
 import { useEffect, useState } from "react";
 import Button from "@/components/Button";
-
+import Dialog from "./Dialog";
 function MemoryBoard() {
   const [cards, setCards] = useState([]);
   const [revealed, setRevealed] = useState([]);
@@ -11,13 +11,10 @@ function MemoryBoard() {
 
   useEffect(() => {
     handleReset();
-  } , []);
+  }, []);
 
   useEffect(() => {
-    if (cards.every((card) => card.matched === true) && cards.length > 0) {
-      alert("You won!");
-    }
-    if (process.env.NODE_ENV === 'development'){
+    if (process.env.NODE_ENV === "development") {
       window.cardsState = cards;
     }
   }, [cards]);
@@ -84,7 +81,6 @@ function MemoryBoard() {
               className={`${
                 card.matched ? "transition-opacity opacity-0 duration-700" : ""
               }`} //Fade out matched cards
-              
               data-revealed={revealed.includes(index) ? "true" : "false"}
             />
           );
@@ -97,6 +93,14 @@ function MemoryBoard() {
       >
         Reset
       </Button>
+      <Dialog
+        isOpen={
+          cards.every((card) => card.matched === true) && cards.length > 0
+        }
+        title="You won!"
+      >
+        Test
+      </Dialog>
     </div>
   );
 }
