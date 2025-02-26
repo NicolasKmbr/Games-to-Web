@@ -1,5 +1,5 @@
-import { promises as fs } from 'fs'
-import path from 'path'
+import { promises as fs } from "fs";
+import path from "path";
 
 /**
  * The function `GetAssetPaths` takes a directory path relative to the public folder, reads the files
@@ -10,14 +10,17 @@ import path from 'path'
  * @returns an array of file paths.
  */
 export async function GetAssetPaths(directoryInPublic) {
-    try {
-        const assetDirectory = path.join(process.cwd(), './public' + directoryInPublic);
-        const assetFilenames = await fs.readdir(assetDirectory)
-        const prefixedFilenames = assetFilenames
-                            .filter(item => item !== ".DS_Store")
-                            .map(item => directoryInPublic + "/" + item);
-        return prefixedFilenames;
-    } catch (error) {
-        return console.error('Error reading the directory', error);
-    }
+  try {
+    const assetDirectory = path.join(
+      process.cwd(),
+      "./public" + directoryInPublic
+    );
+    const assetFilenames = await fs.readdir(assetDirectory);
+    const prefixedFilenames = assetFilenames
+      .filter((item) => item !== ".DS_Store")
+      .map((item) => directoryInPublic + "/" + item);
+    return prefixedFilenames;
+  } catch (error) {
+    return console.error("Error reading the directory", error);
+  }
 }
