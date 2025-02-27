@@ -1,0 +1,25 @@
+.item {
+  animation: spinAround 7s linear infinite;
+}
+
+@keyframes spinAround {
+  from {
+    transform: rotate(0deg) translate(330px);
+  }
+  to {
+    transform: rotate(360deg) translate(330px);
+  }
+}
+
+.image {
+  animation: counterSpin 7s linear infinite;
+}
+
+@keyframes counterSpin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(-360deg);
+  }
+}
