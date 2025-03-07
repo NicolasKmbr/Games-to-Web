@@ -3,7 +3,7 @@
 import Card from "./Card";
 import styles from "../styles/rotatingcards.module.css";
 
-const CARD_COUNT = 15; // Number of cards
+const CARD_COUNT = 30; // Number of cards
 
 export default function RotatingCards() {
   return (
@@ -17,7 +17,7 @@ export default function RotatingCards() {
           className={`${styles.item} absolute`}
           imageStyle={`${styles.image}`}
           cardStyle={{
-            animationDelay: `${-index * 0.5}s`, // Delay each card animation to offset the cards in circle
+            animationDelay: `${(-index * 5) / CARD_COUNT}s`, // Delay each card animation to offset the cards in circle
           }}
           alt="Card Background"
         />
