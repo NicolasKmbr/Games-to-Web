@@ -8,6 +8,9 @@ export default function Home() {
       <Link data-cy="memory-game-nav" href="/memory" className="text-white">
         Memory Game
       </Link>
+      <Link data-cy="jaeger-game-nav" href="/jaeger" className="text-white">
+        Jaeger Game
+      </Link>
     </main>
   );
 }
