@@ -20,21 +20,22 @@ export function createCardDeck(amountOfCards, options = {}) {
   const { duplicate, includeMatchable = false } = options;
 
   const cardDeck = [];
+  const usedCards = new Set();
+
   while (cardDeck.length < amountOfCards) {
     const suit = getRandomSuit();
     const rank = getRandomCardRank();
-    const newCard = createCard(rank, suit, { includeMatchable });
-    // Check if card is already in the deck
-    if (
-      cardDeck.some(
-        (card) => card.rank === newCard.rank && card.suit === newCard.suit
-      )
-    ) {
+    const cardKey = `${rank}-${suit}`;
+
+    if (usedCards.has(cardKey)) {
       continue;
     }
 
+    const newCard = createCard(rank, suit, { includeMatchable });
     cardDeck.push(newCard);
+    usedCards.add(cardKey);
   }
+
   if (duplicate) {
     return shuffleArray(cardDeck.concat(cardDeck));
   }
